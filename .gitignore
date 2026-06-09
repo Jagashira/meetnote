@@ -1,0 +1,12 @@
+.env.local
+.env
+data/
+*.webm
+*.mp4
+*.wav
+*.m4a
+*.png
+.DS_Store
+node_modules/
+.next/
+*.tsbuildinfo
