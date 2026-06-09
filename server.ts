@@ -26,7 +26,7 @@ async function startServer() {
   });
 
   server.listen(port, hostname, () => {
-    console.log(`MeetNote: http://${hostname}:${port}`);
+    console.log(`MinuteDock: http://${hostname}:${port}`);
   });
 }
 

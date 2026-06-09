@@ -74,7 +74,7 @@ export function MeetingWorkspace({ initialMeeting }: { initialMeeting: MeetingRe
   return (
     <div className="workspace">
       <header className="meeting-header">
-        <Link className="back-link" href="/">
+        <Link className="back-link" href="/meetings">
           <AppIcon name="arrow-left" size={18} />
           会議一覧へ戻る
         </Link>

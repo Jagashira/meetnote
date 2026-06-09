@@ -9,7 +9,7 @@ export function SidebarNav() {
 
   return (
     <nav className="sidebar-nav">
-      <Link className={pathname === "/settings" ? "" : "active"} href="/">
+      <Link className={pathname === "/settings" ? "" : "active"} href="/meetings">
         <AppIcon name="list" />
         <span>会議一覧</span>
       </Link>

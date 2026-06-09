@@ -2,19 +2,25 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { AppIcon } from "./AppIcon";
 import { SidebarNav } from "./SidebarNav";
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const [collapsed, setCollapsed] = useState(false);
+  const pathname = usePathname();
+
+  if (pathname === "/" || pathname === "/demo") {
+    return <>{children}</>;
+  }
 
   return (
     <div className={`app-shell ${collapsed ? "sidebar-collapsed" : ""}`}>
       <aside className="sidebar">
-        <Link className="brand" href="/">
+        <Link className="brand" href="/meetings">
           <span className="brand-mark">M</span>
           <span className="brand-copy">
-            <strong>Meet<span>Note</span></strong>
+            <strong>Minute<span>Dock</span></strong>
             <small>Local meeting workspace</small>
           </span>
         </Link>

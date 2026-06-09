@@ -3,7 +3,7 @@ import { AppShell } from "@/components/AppShell";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "MeetNote",
+  title: "MinuteDock",
   description: "ローカルファーストの会議議事録アプリ",
 };
 

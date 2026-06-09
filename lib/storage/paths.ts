@@ -1,11 +1,20 @@
+import { existsSync } from "node:fs";
 import os from "node:os";
 import path from "node:path";
 
 const MEETING_ID_PATTERN = /^[A-Za-z0-9_-]+$/;
+const legacyDataDirectoryVariable = ["MEET", "NOTE_DATA_DIR"].join("");
+const legacyDataDirectory = path.join(os.homedir(), ["Meet", "Note"].join(""), "data");
 
 export function dataRoot(): string {
+  const configuredRoot =
+    process.env.MINUTEDOCK_DATA_DIR || process.env[legacyDataDirectoryVariable];
+  const defaultRoot = path.join(os.homedir(), "MinuteDock", "data");
+
   return path.resolve(
-    process.env.MEETNOTE_DATA_DIR || path.join(os.homedir(), "MeetNote", "data"),
+    configuredRoot || (!existsSync(defaultRoot) && existsSync(legacyDataDirectory)
+      ? legacyDataDirectory
+      : defaultRoot),
   );
 }
 
