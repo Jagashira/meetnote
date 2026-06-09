@@ -1,5 +1,6 @@
 export type AppIconName =
   | "arrow-left"
+  | "arrow-right"
   | "calendar"
   | "camera"
   | "chevrons-left"
@@ -7,7 +8,9 @@ export type AppIconName =
   | "help"
   | "list"
   | "mic"
+  | "plus"
   | "record"
+  | "search"
   | "settings"
   | "sparkles"
   | "speaker"
@@ -35,6 +38,7 @@ export function AppIcon({
   return (
     <svg aria-hidden="true" height={size} viewBox="0 0 24 24" width={size}>
       {name === "arrow-left" && <path {...common} d="m15 18-6-6 6-6M9 12h11" />}
+      {name === "arrow-right" && <path {...common} d="m9 18 6-6-6-6m6 6H4" />}
       {name === "calendar" && (
         <>
           <rect {...common} height="17" rx="2" width="18" x="3" y="4" />
@@ -74,7 +78,14 @@ export function AppIcon({
           <path {...common} d="M5 11a7 7 0 0 0 14 0m-7 7v4m-4 0h8" />
         </>
       )}
+      {name === "plus" && <path {...common} d="M12 5v14M5 12h14" />}
       {name === "record" && <circle cx="12" cy="12" fill="currentColor" r="7" />}
+      {name === "search" && (
+        <>
+          <circle {...common} cx="11" cy="11" r="7" />
+          <path {...common} d="m20 20-4-4" />
+        </>
+      )}
       {name === "settings" && (
         <>
           <circle {...common} cx="12" cy="12" r="3" />

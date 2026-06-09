@@ -6,16 +6,16 @@ export const dynamic = "force-dynamic";
 export default async function HomePage() {
   const meetings = await listMeetings();
   return (
-    <>
-      <section className="hero">
-        <p className="eyebrow">LOCAL-FIRST MEETING MINUTES</p>
-        <h1>会議の記録を、<br />このコンピューターの中に。</h1>
-        <p>
-          音声を文字起こしし、共有画面を記録し、構造化された議事録を生成します。
-          会議データはローカルに保存されます。
-        </p>
-      </section>
+    <div className="home-dashboard">
+      <header className="home-header">
+        <div>
+          <p className="eyebrow">MEETING DASHBOARD</p>
+          <h1>会議一覧</h1>
+          <p>過去の会議を確認し、新しい会議を開始できます。</p>
+        </div>
+        <span className="local-storage-badge"><span className="status-dot" />ローカル保存</span>
+      </header>
       <MeetingList initialMeetings={meetings} />
-    </>
+    </div>
   );
 }

@@ -29,10 +29,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </button>
       </aside>
       <div className="app-content">
-        <header className="topbar">
-          <button aria-label="ヘルプ" className="icon-button" type="button"><AppIcon name="help" /></button>
-          <span className="profile-avatar">M</span>
-        </header>
         <main className="page-shell">{children}</main>
       </div>
     </div>
