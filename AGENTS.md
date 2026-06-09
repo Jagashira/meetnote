@@ -23,7 +23,7 @@ MeetNoteは、Zoomなどのオンライン会議向けに設計された、ロ�
 - 文字起こしをJSONとして保存できる。
 - Markdown形式の会議要約を生成できる。
 - ローカルストレージから過去の会議を一覧表示できる。
-- `npm run dev`でローカル実行できる。
+- `pnpm dev`でローカル実行できる。
 
 ## 重要な既存依存関係：systemctlの文字起こし
 
@@ -74,12 +74,15 @@ MeetNoteの文字起こし機能を実装するときは、以下のルールに
 - React
 - TypeScript
 - Tailwind CSS
+- pnpm
 - Next.js API Routes
 - ローカルファイルストレージ
 - 既存の`systemctl`文字起こしアルゴリズム
 - 必要に応じて、要約生成にOpenAI APIを使用
 
 Next.js App Routerを優先してください。
+
+パッケージ管理とスクリプト実行にはpnpmを使用してください。npmまたはYarnのロックファイルを追加せず、`pnpm-lock.yaml`を維持してください。
 
 ## リポジトリ構成
 
@@ -406,16 +409,16 @@ MVPでは、以下を実装してください。
 タスクを完了する前に、可能な場合は関連するチェックを実行してください。
 
 ```bash
-npm run lint
-npm run typecheck
-npm run build
+pnpm lint
+pnpm typecheck
+pnpm build
 ```
 
 スクリプトが存在しない場合は、妥当であれば追加するか、存在しないことを説明してください。
 
 最低限、以下を確認してください。
 
-- `npm run dev`でアプリが起動する。
+- `pnpm dev`でアプリが起動する。
 - ホームページが表示される。
 - 会議を作成できる。
 - 会議フォルダーが作成される。

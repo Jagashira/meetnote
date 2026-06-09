@@ -6,6 +6,8 @@ MeetNoteは、Zoomなどのオンライン会議向けに作られた、ロー�
 
 Next.js App Router、React、TypeScript、Tailwind CSSを使用しています。
 
+パッケージ管理とスクリプト実行にはpnpmを使用します。
+
 ## systemctlとの関係
 
 Realtime文字起こしは、既存の`systemctl`の以下の実装を基にしています。
@@ -49,10 +51,10 @@ MeetNoteの対応する実装は以下です。
 
 ## セットアップ
 
-Node.js 20以降を使用してください。
+Node.js 20以降とpnpm 9を使用してください。
 
 ```bash
-npm install
+pnpm install
 cp .env.example .env.local
 ```
 
@@ -71,12 +73,12 @@ MEETING_NOISE_REDUCTION=far_field
 ## 開発サーバー
 
 ```bash
-npm run dev
+pnpm dev
 ```
 
 ブラウザで[http://127.0.0.1:3000](http://127.0.0.1:3000)を開きます。
 
-Realtime文字起こし用WebSocketを扱うため、`npm run dev`はNext.jsのカスタムサーバー`server.ts`を起動します。
+Realtime文字起こし用WebSocketを扱うため、`pnpm dev`はNext.jsのカスタムサーバー`server.ts`を起動します。
 
 ## ローカルデータ
 
@@ -118,9 +120,9 @@ Realtime文字起こし用WebSocketを扱うため、`npm run dev`はNext.jsの�
 ## 検証コマンド
 
 ```bash
-npm run lint
-npm run typecheck
-npm run build
+pnpm lint
+pnpm typecheck
+pnpm build
 ```
 
 ## プライバシーと同意

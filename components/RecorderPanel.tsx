@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import type { TranscriptItem, TranscriptSource } from "@/types/meeting";
+import { AppIcon } from "./AppIcon";
 
 type ActiveCapture = {
   stream: MediaStream;
@@ -197,25 +198,31 @@ export function RecorderPanel({
   }
 
   return (
-    <section className="panel">
-      <div className="panel-heading">
-        <div>
-          <p className="eyebrow">REALTIME</p>
-          <h2>文字起こし</h2>
+    <section className="panel feature-panel">
+      <p className="eyebrow">REALTIME</p>
+      <div className="feature-panel-body">
+        <div className="feature-orb realtime-orb">
+          <AppIcon name="mic" size={34} strokeWidth={2.1} />
         </div>
-        <span className={`state-pill ${active.mic || active.system ? "live" : ""}`}>
-          {active.mic || active.system ? "文字起こし中" : "待機中"}
-        </span>
+        <div className="feature-copy">
+          <div className="feature-title-row">
+          <h2>文字起こし</h2>
+            <span className={`state-pill ${active.mic || active.system ? "live" : ""}`}>
+              {active.mic || active.system ? "文字起こし中" : "待機中"}
+            </span>
+          </div>
+          <p className="muted">
+            systemctl と同じ 24kHz PCM16・Realtime API・server_vad 方式を使用します。
+          </p>
+        </div>
       </div>
-      <p className="muted">
-        <code>systemctl</code>と同じ24kHz PCM16・Realtime API・server_vad方式を使用します。
-      </p>
-      <div className="button-grid">
+      <div className="button-grid transcription-actions">
         <button
-          className={active.mic ? "danger" : "secondary"}
+          className={active.mic ? "danger" : "primary"}
           onClick={() => (active.mic ? stop("mic") : startMic())}
           type="button"
         >
+          <AppIcon name="mic" size={18} />
           {active.mic ? "マイク文字起こしを停止" : "マイク文字起こしを開始"}
         </button>
         <button
@@ -223,6 +230,7 @@ export function RecorderPanel({
           onClick={() => (active.system ? stop("system") : startSystem())}
           type="button"
         >
+          <AppIcon name="video" size={18} />
           {active.system ? "内部音声文字起こしを停止" : "共有画面の音声を文字起こし"}
         </button>
       </div>

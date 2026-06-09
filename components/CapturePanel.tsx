@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { AppIcon } from "./AppIcon";
 
 type UploadResult = {
   file?: string;
@@ -23,6 +24,12 @@ const SCREEN_AUDIO_OPTIONS: Array<{ value: ScreenAudioMode; label: string; descr
   { value: "external", label: "外部音声", description: "この端末のマイク音声" },
   { value: "both", label: "両方", description: "内部音声とマイクをミックス" },
 ];
+
+const SCREEN_AUDIO_ICONS = {
+  internal: "speaker",
+  external: "mic",
+  both: "waveform",
+} as const;
 
 async function uploadBlob(
   meetingId: string,
@@ -54,7 +61,7 @@ export function CapturePanel({
   const chunksRef = useRef<Blob[]>([]);
   const [recording, setRecording] = useState(false);
   const [audioRecording, setAudioRecording] = useState(false);
-  const [screenAudioMode, setScreenAudioMode] = useState<ScreenAudioMode>("both");
+  const [screenAudioMode, setScreenAudioMode] = useState<ScreenAudioMode>("internal");
 
   async function captureScreenshot() {
     let stream: MediaStream | null = null;
@@ -226,18 +233,22 @@ export function CapturePanel({
   }
 
   return (
-    <section className="panel">
-      <div className="panel-heading">
-        <div>
-          <p className="eyebrow">CAPTURE</p>
-          <h2>記録</h2>
+    <section className="panel feature-panel capture-panel">
+      <p className="eyebrow">CAPTURE</p>
+      <div className="feature-panel-body">
+        <div className="feature-orb capture-orb"><AppIcon name="record" size={31} /></div>
+        <div className="feature-copy">
+          <div className="feature-title-row">
+            <h2>記録</h2>
+            <span className={`state-pill ${recording || audioRecording ? "live" : ""}`}>
+              {recording || audioRecording ? "録画中" : "待機中"}
+            </span>
+          </div>
+          <strong className="field-label">画面録画に含める音声</strong>
         </div>
-        <span className={`state-pill ${recording || audioRecording ? "live" : ""}`}>
-          {recording || audioRecording ? "録画中" : "待機中"}
-        </span>
       </div>
       <fieldset className="recording-source-picker" disabled={recording || audioRecording}>
-        <legend>画面録画に含める音声</legend>
+        <legend className="sr-only">画面録画に含める音声</legend>
         <div className="recording-source-options">
           {SCREEN_AUDIO_OPTIONS.map((option) => (
             <label
@@ -251,6 +262,9 @@ export function CapturePanel({
                 type="radio"
                 value={option.value}
               />
+              <span className="source-option-icon">
+                <AppIcon name={SCREEN_AUDIO_ICONS[option.value]} size={20} />
+              </span>
               <span>
                 <strong>{option.label}</strong>
                 <small>{option.description}</small>
@@ -261,6 +275,7 @@ export function CapturePanel({
       </fieldset>
       <div className="button-grid">
         <button className="secondary" disabled={recording || audioRecording} onClick={captureScreenshot} type="button">
+          <AppIcon name="camera" size={18} />
           スクリーンショット
         </button>
         <button
@@ -269,6 +284,7 @@ export function CapturePanel({
           onClick={() => (recording ? stopRecording() : startRecording("screen"))}
           type="button"
         >
+          <AppIcon name="video" size={18} />
           {recording ? "画面録画を停止・保存" : "画面録画を開始"}
         </button>
         <button
@@ -277,6 +293,7 @@ export function CapturePanel({
           onClick={() => (audioRecording ? stopRecording() : startRecording("audio"))}
           type="button"
         >
+          <AppIcon name="mic" size={18} />
           {audioRecording ? "音声録音を停止・保存" : "マイク音声を録音"}
         </button>
       </div>

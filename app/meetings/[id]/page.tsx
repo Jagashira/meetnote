@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MeetingWorkspace } from "@/components/MeetingWorkspace";
 import { getMeeting } from "@/lib/storage/meetingStore";
@@ -14,18 +13,5 @@ export default async function MeetingPage({ params }: { params: Promise<{ id: st
     notFound();
   }
 
-  return (
-    <>
-      <section className="meeting-header">
-        <div>
-          <Link className="back-link" href="/">会議一覧へ戻る</Link>
-          <p className="eyebrow">MEETING WORKSPACE</p>
-          <h1>{meeting.metadata.title}</h1>
-          <p className="muted">{new Date(meeting.metadata.startedAt).toLocaleString("ja-JP")}</p>
-        </div>
-        <code>{meeting.metadata.id}</code>
-      </section>
-      <MeetingWorkspace initialMeeting={meeting} />
-    </>
-  );
+  return <MeetingWorkspace initialMeeting={meeting} />;
 }

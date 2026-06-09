@@ -1,7 +1,9 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import Link from "next/link";
 import type { MeetingRecord, TranscriptItem } from "@/types/meeting";
+import { AppIcon } from "./AppIcon";
 import { CapturePanel } from "./CapturePanel";
 import { RecorderPanel } from "./RecorderPanel";
 import { SummaryView } from "./SummaryView";
@@ -71,63 +73,60 @@ export function MeetingWorkspace({ initialMeeting }: { initialMeeting: MeetingRe
 
   return (
     <div className="workspace">
-      <div className={`status-banner ${isError ? "is-error" : ""}`}>
-        <span className="status-dot" />
-        <span>{status}</span>
+      <header className="meeting-header">
+        <Link className="back-link" href="/">
+          <AppIcon name="arrow-left" size={18} />
+          会議一覧へ戻る
+        </Link>
+        <div className="meeting-title-row">
+          <h1>{meeting.metadata.title}</h1>
+        </div>
+        <div className="meeting-meta">
+          <span><AppIcon name="calendar" size={17} />{new Date(meeting.metadata.startedAt).toLocaleString("ja-JP")}</span>
+          <span><AppIcon name="file" size={17} />{meeting.metadata.id}</span>
+          <span className={`meeting-status ${isError ? "is-error" : ""}`}>
+            <span className="status-dot" />
+            {status}
+          </span>
+        </div>
+      </header>
+
+      <div className="workspace-top-grid">
+        <RecorderPanel
+          meetingId={meeting.metadata.id}
+          onPartial={(source, text) => setPartials((current) => ({ ...current, [source]: text }))}
+          onStatus={showStatus}
+          onTranscript={addTranscript}
+        />
+        <CapturePanel meetingId={meeting.metadata.id} onSaved={refresh} onStatus={showStatus} />
       </div>
 
-      <div className="workspace-columns">
-        <div className="stack">
-          <RecorderPanel
-            meetingId={meeting.metadata.id}
-            onPartial={(source, text) => setPartials((current) => ({ ...current, [source]: text }))}
-            onStatus={showStatus}
-            onTranscript={addTranscript}
-          />
-          <CapturePanel meetingId={meeting.metadata.id} onSaved={refresh} onStatus={showStatus} />
-          <section className="panel">
-            <div className="panel-heading">
-              <div>
-                <p className="eyebrow">MANUAL NOTE</p>
-                <h2>手動メモ</h2>
-              </div>
-              <span className="count-badge">{meeting.manualNotes.length}件</span>
-            </div>
-            <form className="stack" onSubmit={saveNote}>
-              <textarea
-                placeholder="補足、決定事項、確認したいことを入力"
-                rows={4}
-                value={note}
-                onChange={(event) => setNote(event.target.value)}
-              />
-              <button className="secondary" disabled={!note.trim()} type="submit">メモを保存</button>
-            </form>
-          </section>
-          <section className="panel artifact-panel">
+      <div className="workspace-bottom-grid">
+        <section className="panel workspace-lower-panel manual-note-panel">
+          <div className="panel-heading">
             <div>
-              <span>スクリーンショット</span>
-              <strong>{meeting.screenshots.length}</strong>
+              <p className="eyebrow">MANUAL NOTE</p>
+              <h2>手動メモ <small>{meeting.manualNotes.length}件</small></h2>
             </div>
-            <div>
-              <span>画面録画</span>
-              <strong>{meeting.recordings.length}</strong>
-            </div>
-            <div>
-              <span>音声録音</span>
-              <strong>{meeting.audioFiles.length}</strong>
-            </div>
-          </section>
-        </div>
-
-        <div className="stack">
-          <TranscriptView partials={partials} transcript={meeting.transcript} />
-          <div className="summary-action">
-            <button className="primary" disabled={summarizing} onClick={createSummary} type="button">
-              {summarizing ? "議事録を生成中..." : "文字起こしとメモから議事録を生成"}
-            </button>
           </div>
-          <SummaryView summary={meeting.summary} />
-        </div>
+          <form className="manual-note-form" onSubmit={saveNote}>
+            <textarea
+              placeholder="補足、決定事項、確認したいことを入力"
+              rows={6}
+              value={note}
+              onChange={(event) => setNote(event.target.value)}
+            />
+            <section className="artifact-panel">
+              <div><AppIcon name="camera" /><span>スクリーンショット</span><strong>{meeting.screenshots.length}</strong></div>
+              <div><AppIcon name="video" /><span>画面録画</span><strong>{meeting.recordings.length}</strong></div>
+              <div><AppIcon name="mic" /><span>音声録音</span><strong>{meeting.audioFiles.length}</strong></div>
+            </section>
+            <button className="note-save" disabled={!note.trim()} type="submit">メモを保存</button>
+          </form>
+        </section>
+
+        <TranscriptView partials={partials} transcript={meeting.transcript} />
+        <SummaryView onCreate={createSummary} summarizing={summarizing} summary={meeting.summary} />
       </div>
     </div>
   );

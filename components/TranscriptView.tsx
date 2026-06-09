@@ -1,4 +1,5 @@
 import type { TranscriptItem } from "@/types/meeting";
+import { AppIcon } from "./AppIcon";
 
 export function TranscriptView({
   transcript,
@@ -8,7 +9,7 @@ export function TranscriptView({
   partials: Record<string, string>;
 }) {
   return (
-    <section className="panel transcript-panel">
+    <section className="panel transcript-panel workspace-lower-panel">
       <div className="panel-heading">
         <div>
           <p className="eyebrow">TRANSCRIPT</p>
@@ -18,7 +19,10 @@ export function TranscriptView({
       </div>
       <div className="transcript-list">
         {transcript.length === 0 && Object.keys(partials).length === 0 && (
-          <div className="empty-state compact">文字起こしを開始すると、ここに認識結果が表示されます。</div>
+          <div className="empty-state tall">
+            <AppIcon name="transcript" size={54} strokeWidth={1.5} />
+            <span>文字起こしを開始すると、<br />ここに認識結果が表示されます。</span>
+          </div>
         )}
         {transcript.map((item) => (
           <article className={`transcript-item source-${item.source}`} key={item.id}>
